@@ -1,5 +1,6 @@
 // COMPLETE WORKING SERVER - ALL ENDPOINTS WITH REAL AI
-require('dotenv').config({ path: './env-config.txt' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, 'env-config.txt') });
 const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
@@ -32,25 +33,7 @@ const supabaseAdmin = createClient(
 );
 
 // Middleware
-// CORS configuration for production and development
-const allowedOrigins = [
-  'http://localhost:8080',
-  'https://simulated-market.vercel.app',
-  'https://pipe-it-backend.onrender.com'
-];
-
-app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
-}));
+app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 
 // Health check
