@@ -1,4 +1,4 @@
-// API Configuration for PipeIt
+// API Configuration for PipeIt - Updated for production
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pipe-it-backend.onrender.com';
 
 // Helper function for API calls
