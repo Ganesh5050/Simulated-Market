@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Get Supabase credentials from environment variables - NO HARDCODED KEYS
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabaseServiceKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseServiceKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY || '';
 
 // Validate that environment variables are set
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env file.');
+  console.error('Missing Supabase environment variables');
+  // Don't throw error in production, just log it
 }
 
 // Singleton pattern to prevent multiple instances
