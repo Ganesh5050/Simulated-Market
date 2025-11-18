@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Voice Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .test-section { margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+        .result { margin: 10px 0; padding: 10px; background: #3a3a3a; border-radius: 4px; }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+        button { padding: 8px 16px; margin: 5px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #2563eb; }
+        button:disabled { background: #6b7280; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h1>🎤 Offline Voice Recording Test</h1>
+    
+    <div class="test-section">
+        <h2>Browser Compatibility Check</h2>
+        <button onclick="checkBrowserSupport()">Check Browser Support</button>
+        <div id="browser-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Microphone Test</h2>
+        <button onclick="testMicrophone()">Test Microphone Access</button>
+        <div id="mic-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Offline Voice Features</h2>
+        <div class="result info">
+            ✅ <strong>NO API Keys Required</strong> - Works completely offline
+        </div>
+        <div class="result info">
+            🎤 <strong>Local Recording</strong> - Records audio directly in browser
+        </div>
+        <div class="result info">
+            🤖 <strong>Mock Persona Responses</strong> - Generates realistic AI-like responses
+        </div>
+        <div class="result info">
+            💾 <strong>Download Recordings</strong> - Save audio files locally
+        </div>
+        <div class="result info">
+            🔄 <strong>Real-time Processing</strong> - Simulates voice analysis
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>How to Use in the App</h2>
+        <ol>
+            <li>Navigate to the <strong>Tunnel page</strong></li>
+            <li>Enter an idea and click <strong>"Launch Into Tunnel"</strong></li>
+            <li>Wait for analysis to complete</li>
+            <li>Click <strong>"Focus Group"</strong> to see personas</li>
+            <li>Click the <strong>🎤 microphone icon</strong> next to any persona</li>
+            <li>Speak your message and click <strong>"Stop"</strong></li>
+            <li>Wait 2 seconds for processing</li>
+            <li>See the persona's <strong>AI-like response</strong>!</li>
+        </ol>
+    </div>
+
+    <script>
+        window.checkBrowserSupport = function() {
+            const results = document.getElementById('browser-results');
+            let html = '';
+            
+            // Check MediaRecorder
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                html += '<div class="result success">✅ MediaRecorder API supported</div>';
+            } else {
+                html += '<div class="result error">❌ MediaRecorder API not supported</div>';
+            }
+            
+            // Check Speech Recognition (optional)
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                html += '<div class="result success">✅ Speech Recognition API supported</div>';
+            } else {
+                html += '<div class="result info">ℹ️ Speech Recognition not available (not required)</div>';
+            }
+            
+            // Check secure context
+            if (window.isSecureContext) {
+                html += '<div class="result success">✅ Secure context (HTTPS/localhost)</div>';
+            } else {
+                html += '<div class="result error">❌ Not secure context - use HTTPS or localhost</div>';
+            }
+            
+            results.innerHTML = html;
+        };
+        
+        window.testMicrophone = async function() {
+            const results = document.getElementById('mic-results');
+            results.innerHTML = '<div class="result info">Testing microphone access...</div>';
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                results.innerHTML = '<div class="result success">✅ Microphone access granted!</div>';
+                
+                // Stop the stream after testing
+                stream.getTracks().forEach(track => track.stop());
+            } catch (error) {
+                results.innerHTML = `<div class="result error">❌ Microphone access denied: ${error.message}</div>`;
+            }
+        };
+        
+        // Auto-run browser support check
+        setTimeout(checkBrowserSupport, 1000);
+    </script>
+</body>
+</html>

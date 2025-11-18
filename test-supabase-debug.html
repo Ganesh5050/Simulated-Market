@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Supabase Connection Debug</h1>
+    
+    <div id="results"></div>
+    
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testAuth()">Test Authentication</button>
+    <button onclick="testSignup()">Test Signup</button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const supabaseUrl = 'https://giapfmvpowrmvbjpxtym.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpYXBmbXZwb3dybXZianB4dHltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3MzkyNzQsImV4cCI6MjA3NjMxNTI3NH0.UJQH_CN8iU6GHU36-mNewovkE71CZ34d2EEHC3mEEIY';
+        const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpYXBmbXZwb3dybXZianB4dHltIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDczOTI3NCwiZXhwIjoyMDc2MzE1Mjc0fQ._a0QcNoyoArvj9Z0nyiVVZwRK4sRFG5B-cmNf3U4QaY';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        const supabaseService = window.supabase.createClient(supabaseUrl, supabaseServiceKey);
+        
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        async function testConnection() {
+            addResult('🔗 Testing Supabase Connection...', 'info');
+            
+            try {
+                const { data, error } = await supabase
+                    .from('user_preferences')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) {
+                    addResult(`❌ Connection Error: ${error.message}`, 'error');
+                    addResult(`Error Details: <pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                } else {
+                    addResult('✅ Connection Successful!', 'success');
+                    addResult(`Found ${data.length} user_preferences records`, 'info');
+                }
+            } catch (err) {
+                addResult(`❌ Unexpected Error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function testAuth() {
+            addResult('🔐 Testing Authentication...', 'info');
+            
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    addResult(`❌ Auth Error: ${error.message}`, 'error');
+                } else {
+                    addResult('✅ Auth Service Working!', 'success');
+                    addResult(`Current session: ${data.session ? 'Active' : 'None'}`, 'info');
+                }
+            } catch (err) {
+                addResult(`❌ Auth Unexpected Error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function testSignup() {
+            addResult('📝 Testing Signup Process...', 'info');
+            
+            const testEmail = `test${Date.now()}@example.com`;
+            const testPassword = 'TestPassword123!';
+            
+            try {
+                // First, try to signup
+                const { data, error } = await supabase.auth.signUp({
+                    email: testEmail,
+                    password: testPassword
+                });
+                
+                if (error) {
+                    addResult(`❌ Signup Error: ${error.message}`, 'error');
+                    addResult(`Error Code: ${error.status}`, 'error');
+                    addResult(`Full Error: <pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                } else {
+                    addResult('✅ Signup Successful!', 'success');
+                    addResult(`User ID: ${data.user?.id}`, 'info');
+                    addResult(`Email: ${data.user?.email}`, 'info');
+                    addResult(`Email confirmed: ${data.user?.email_confirmed_at ? 'Yes' : 'No'}`, 'info');
+                }
+            } catch (err) {
+                addResult(`❌ Signup Unexpected Error: ${err.message}`, 'error');
+            }
+        }
+        
+        // Auto-run connection test on page load
+        window.onload = function() {
+            addResult('🚀 Supabase Debug Tool Loaded', 'info');
+            addResult(`Project URL: ${supabaseUrl}`, 'info');
+            addResult('Click the buttons above to test different functions', 'info');
+        };
+    </script>
+</body>
+</html>

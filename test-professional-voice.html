@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Voice Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .demo-section { margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+        .result { margin: 10px 0; padding: 10px; background: #3a3a3a; border-radius: 4px; }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+        .warning { color: #f59e0b; }
+        button { padding: 8px 16px; margin: 5px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #2563eb; }
+        button:disabled { background: #6b7280; cursor: not-allowed; }
+        .api-key { background: #1f2937; padding: 10px; border-radius: 4px; font-family: monospace; word-break: break-all; }
+        .feature { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px; border-radius: 8px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🎤 Professional Voice Personas - Setup Guide</h1>
+    
+    <div class="feature">
+        <h2>🚀 What You Get</h2>
+        <ul>
+            <li><strong>Live Voice Calls</strong> - Talk directly with AI personas</li>
+            <li><strong>Professional Voices</strong> - Gender-appropriate, realistic voices</li>
+            <li><strong>Intelligent Conversations</strong> - Powered by GPT-4 with persona context</li>
+            <li><strong>Industry Insights</strong> - Each persona speaks from their expertise</li>
+            <li><strong>Real-time Responses</strong> - No delays, natural conversation flow</li>
+        </ul>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📋 Required API Keys</h2>
+        <button onclick="checkApiKeys()">Check API Keys Status</button>
+        <div id="api-results"></div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🎯 Quick Setup Steps</h2>
+        <ol>
+            <li><strong>Get Vapi AI Key</strong> - <a href="https://vapi.ai" target="_blank" style="color: #60a5fa;">vapi.ai</a> (Voice conversations)</li>
+            <li><strong>Get ElevenLabs Key</strong> - <a href="https://elevenlabs.io" target="_blank" style="color: #60a5fa;">elevenlabs.io</a> (Professional voices)</li>
+            <li><strong>Get OpenAI Key</strong> - <a href="https://platform.openai.com" target="_blank" style="color: #60a5fa;">platform.openai.com</a> (AI brain)</li>
+            <li><strong>Add to .env.local</strong> - Create environment file with keys</li>
+            <li><strong>Restart Dev Server</strong> - npm run dev</li>
+            <li><strong>Test Voice Call</strong> - Click 📞 next to any persona</li>
+        </ol>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🗣️ Sample Persona Conversations</h2>
+        
+        <div class="result info">
+            <h3>👩‍💻 Sarah Chen - Software Engineer, San Francisco</h3>
+            <p><strong>Voice:</strong> Professional, confident female</p>
+            <p><strong>Sample Dialogue:</strong> "From a technical perspective, your AI shopping assistant has potential, but I'd need to see the architecture first. How are you handling user data privacy? What's your tech stack for scalability?"</p>
+        </div>
+        
+        <div class="result info">
+            <h3>👨‍💼 Marcus Rodriguez - CFO, New York</h3>
+            <p><strong>Voice:</strong> Authoritative, experienced male</p>
+            <p><strong>Sample Dialogue:</strong> "Interesting concept, but my main concern is ROI. What's your customer acquisition cost? How do you plan to monetize this? I need to see the financial projections before I'd invest."</p>
+        </div>
+        
+        <div class="result info">
+            <h3>👩‍⚕️ Dr. Emma Thompson - Doctor, London</h3>
+            <p><strong>Voice:</strong> Caring, educated female</p>
+            <p><strong>Sample Dialogue:</strong> "As a healthcare professional, I'm wondering about the clinical applications. How does this comply with HIPAA regulations? What are the actual patient outcomes you're expecting?"</p>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>💰 Cost Breakdown</h2>
+        <div class="result success">
+            <h3>Per 5-Minute Conversation</h3>
+            <ul>
+                <li>Vapi AI (voice streaming): $0.25</li>
+                <li>OpenAI (GPT-4 responses): $0.10</li>
+                <li>ElevenLabs (voice synthesis): $0.05</li>
+                <li><strong>Total: ~$0.40 per conversation</strong></li>
+            </ul>
+        </div>
+        <div class="result info">
+            <p><strong>Monthly estimate (50 conversations): ~$20</strong></p>
+            <p>Much cheaper than traditional market research!</p>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🔧 Environment Setup</h2>
+        <p>Create a <code>.env.local</code> file in your project root:</p>
+        <div class="api-key">
+VITE_VAPI_API_KEY=your_vapi_key_here<br>
+VITE_ELEVENLABS_API_KEY=your_elevenlabs_key_here<br>
+VITE_OPENAI_API_KEY=your_openai_key_here
+        </div>
+        <p class="warning">⚠️ Never commit real API keys to git! .env.local is already in .gitignore</p>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🚀 Ready to Test?</h2>
+        <ol>
+            <li>Run <code>npm run dev</code> in your project</li>
+            <li>Navigate to the <strong>Tunnel</strong> page</li>
+            <li>Enter an idea and click "Launch Into Tunnel"</li>
+            <li>Click "Focus Group" to see personas</li>
+            <li>Toggle voice mode to "🌐 Professional"</li>
+            <li>Click the 📞 phone icon next to any persona</li>
+            <li>Grant microphone permissions and start talking!</li>
+        </ol>
+    </div>
+
+    <script>
+        window.checkApiKeys = function() {
+            const results = document.getElementById('api-results');
+            let html = '';
+            
+            // Check Vapi API Key
+            const vapiKey = localStorage.getItem('VITE_VAPI_API_KEY') || 'Not set';
+            if (vapiKey !== 'Not set' && vapiKey.startsWith('3f')) {
+                html += '<div class="result success">✅ Vapi API Key: Configured</div>';
+            } else {
+                html += '<div class="result error">❌ Vapi API Key: Missing or invalid</div>';
+            }
+            
+            // Check ElevenLabs API Key  
+            const elevenlabsKey = localStorage.getItem('VITE_ELEVENLABS_API_KEY') || 'Not set';
+            if (elevenlabsKey !== 'Not set' && elevenlabsKey.length > 20) {
+                html += '<div class="result success">✅ ElevenLabs API Key: Configured</div>';
+            } else {
+                html += '<div class="result warning">⚠️ ElevenLabs API Key: Optional (uses Vapi built-in voices)</div>';
+            }
+            
+            // Check OpenAI API Key
+            const openaiKey = localStorage.getItem('VITE_OPENAI_API_KEY') || 'Not set';
+            if (openaiKey !== 'Not set' && openaiKey.startsWith('sk-')) {
+                html += '<div class="result success">✅ OpenAI API Key: Configured</div>';
+            } else {
+                html += '<div class="result error">❌ OpenAI API Key: Required for intelligent responses</div>';
+            }
+            
+            // Instructions
+            html += '<div class="result info">';
+            html += '<strong>📝 To set API keys:</strong><br>';
+            html += '1. Get keys from the services listed above<br>';
+            html += '2. Add them to your .env.local file<br>';
+            html += '3. Restart your development server<br>';
+            html += '4. The app will automatically pick up the keys';
+            html += '</div>';
+            
+            results.innerHTML = html;
+        };
+        
+        // Auto-run check
+        setTimeout(checkApiKeys, 1000);
+    </script>
+</body>
+</html>

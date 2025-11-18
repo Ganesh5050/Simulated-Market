@@ -1,0 +1,52 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+
+# Environment files - NEVER COMMIT THESE!
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# API Keys and sensitive data
+API_KEYS_*.md
+*_KEYS_*.md
+VOICE_SYSTEM_*.md
+VAPI_ERROR_*.md
+OPENAI_*.md
+CALL_PERSONA_*.md
+BACKEND_*.md
+ALL_VOICE_*.md
+GIT_SAVE_*.md
+LOCAL_API_KEYS_BACKUP.txt
+env-local-template.txt
+YOUR_REAL_KEYS_BACKUP.txt
+*_BACKUP*.txt
+*_backup*.txt
+*_TEMPLATE*.txt
+*_template*.txt
+CONSOLE_CLEAN_FINAL.md
+COHERE_INTEGRATION_COMPLETE.md
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

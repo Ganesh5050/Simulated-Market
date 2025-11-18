@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Database Connection Test</h1>
+    <div id="result"></div>
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testCreateProject()">Test Create Project</button>
+    
+    <script>
+        const supabaseUrl = 'https://giapfmvpowrmvbjpxtym.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpYXBmbXZwb3dybXZianB4dHltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3MzkyNzQsImV4cCI6MjA3NjMxNTI3NH0.UJQH_CN8iU6GHU36-mNewovkE71CZ34d2EEHC3mEEIY';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing connection...</p>';
+            
+            try {
+                // Test 1: Check if projects table exists
+                const { data, error } = await supabase
+                    .from('projects')
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    resultDiv.innerHTML = 
+                        '<h2 style="color: red;">❌ ERROR: ' + error.message + '</h2>' +
+                        '<p><strong>Error Code:</strong> ' + (error.code || 'N/A') + '</p>' +
+                        '<p><strong>Error Details:</strong> ' + (error.details || 'N/A') + '</p>' +
+                        '<p><strong>Error Hint:</strong> ' + (error.hint || 'N/A') + '</p>' +
+                        '<p>This means the database tables don\'t exist yet.</p>' +
+                        '<p>You need to run the SQL script in Supabase SQL Editor.</p>';
+                } else {
+                    resultDiv.innerHTML = 
+                        '<h2 style="color: green;">✅ SUCCESS: Connected to Supabase!</h2>' +
+                        '<p>Projects table exists and is accessible.</p>' +
+                        '<p>Found ' + data.length + ' projects.</p>';
+                }
+            } catch (err) {
+                resultDiv.innerHTML = 
+                    '<h2 style="color: red;">❌ CONNECTION ERROR: ' + err.message + '</h2>';
+            }
+        }
+        
+        async function testCreateProject() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing project creation...</p>';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .insert({
+                        name: 'Test Project',
+                        description: 'Testing database connection',
+                        user_id: '00000000-0000-0000-0000-000000000000'
+                    })
+                    .select()
+                    .single();
+                
+                if (error) {
+                    resultDiv.innerHTML = 
+                        '<h2 style="color: red;">❌ CREATE ERROR: ' + error.message + '</h2>' +
+                        '<p><strong>Error Code:</strong> ' + (error.code || 'N/A') + '</p>' +
+                        '<p><strong>Error Details:</strong> ' + (error.details || 'N/A') + '</p>' +
+                        '<p><strong>Error Hint:</strong> ' + (error.hint || 'N/A') + '</p>';
+                } else {
+                    resultDiv.innerHTML = 
+                        '<h2 style="color: green;">✅ SUCCESS: Project created!</h2>' +
+                        '<p>Project ID: ' + data.id + '</p>' +
+                        '<p>Project Name: ' + data.name + '</p>';
+                }
+            } catch (err) {
+                resultDiv.innerHTML = 
+                    '<h2 style="color: red;">❌ CREATE ERROR: ' + err.message + '</h2>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Professional Voice API Keys
+# Get these from your respective API providers:
+VITE_VAPI_API_KEY=your-vapi-api-key-here
+VITE_ELEVENLABS_API_KEY=your-elevenlabs-api-key-here
+VITE_OPENAI_API_KEY=your-openai-api-key-here
+
+# AI Integration Keys
+VITE_COHERE_API_KEY=your-cohere-api-key-here
+
+# Database Keys (from Supabase dashboard)
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+VITE_SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key-here
+
+# Project Configuration
+VITE_PROJECT_ID=your-project-id-here

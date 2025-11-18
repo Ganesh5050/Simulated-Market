@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎙️ Voice Call Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f8ff; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .test { margin: 20px 0; padding: 20px; border: 2px solid #e0e0e0; border-radius: 10px; }
+        .success { background: #d4edda; border-color: #28a745; }
+        .error { background: #f8d7da; border-color: #dc3545; }
+        button { padding: 15px 30px; font-size: 16px; margin: 10px; cursor: pointer; border-radius: 8px; border: none; background: #007bff; color: white; }
+        button:hover { background: #0056b3; }
+        .result { margin: 15px 0; padding: 15px; border-radius: 8px; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 12px; }
+        h1 { color: #007bff; text-align: center; }
+        h2 { color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ Voice Call Test</h1>
+        <div class="test">
+            <h2>🔧 1. Server Health Check</h2>
+            <button onclick="testHealth()">Test Health</button>
+            <div id="healthResult" class="result">Click to test server health...</div>
+        </div>
+        
+        <div class="test">
+            <h2>🎙️ 2. Test Voice Call Setup</h2>
+            <button onclick="testVoiceCall()">Test Voice Call</button>
+            <div id="voiceResult" class="result">Click to test voice call setup...</div>
+        </div>
+        
+        <div class="test">
+            <h2>🤖 3. Test AI Chat</h2>
+            <button onclick="testAIChat()">Test AI Chat</button>
+            <div id="aiResult" class="result">Click to test AI chat...</div>
+        </div>
+        
+        <div class="test">
+            <h2>🚀 4. TEST EVERYTHING</h2>
+            <button onclick="testAll()">TEST ALL ENDPOINTS</button>
+            <div id="allResult" class="result">Click to test all endpoints...</div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; padding: 25px; background: #e7f3ff; border-radius: 15px;">
+            <h2 style="color: #007bff;">🎯 Ready for Main Application!</h2>
+            <p style="font-size: 16px;">All tests should show ✅ GREEN success messages</p>
+            <p style="font-size: 16px;">Then go to <strong>http://localhost:8083</strong> and test Call Persona!</p>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5050';
+        
+        async function testHealth() {
+            const result = document.getElementById('healthResult');
+            result.innerHTML = 'Testing server health...';
+            result.className = 'result';
+            
+            try {
+                const response = await fetch(`${API}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `
+                        <h3>✅ Server Health OK!</h3>
+                        <p><strong>Time:</strong> ${data.time}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    result.className = 'result success';
+                } else {
+                    result.innerHTML = `<h3>❌ Health Check Failed</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    result.className = 'result error';
+                }
+            } catch (error) {
+                result.innerHTML = `<h3>❌ Connection Error</h3><p>${error.message}</p>`;
+                result.className = 'result error';
+            }
+        }
+        
+        async function testVoiceCall() {
+            const result = document.getElementById('voiceResult');
+            result.innerHTML = 'Testing voice call setup...';
+            result.className = 'result';
+            
+            try {
+                const response = await fetch(`${API}/voice/call`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        persona: {
+                            name: 'Alex',
+                            demographics: {
+                                age: 59,
+                                gender: 'female',
+                                location: 'Spain'
+                            }
+                        },
+                        idea: 'AI Voice Assistant'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `
+                        <h3>✅ Voice Call Setup Successful!</h3>
+                        <p><strong>Persona:</strong> ${data.persona.name}</p>
+                        <p><strong>Assistant Name:</strong> ${data.assistantConfig.name}</p>
+                        <p><strong>Model:</strong> ${data.assistantConfig.model.model}</p>
+                        <p><strong>Voice Provider:</strong> ${data.assistantConfig.voice.provider}</p>
+                        <p><strong>Public Key:</strong> ${data.publicKey}</p>
+                        <p><strong>First Message:</strong> ${data.assistantConfig.firstMessage}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    result.className = 'result success';
+                } else {
+                    result.innerHTML = `<h3>❌ Voice Call Setup Failed</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    result.className = 'result error';
+                }
+            } catch (error) {
+                result.innerHTML = `<h3>❌ Connection Error</h3><p>${error.message}</p>`;
+                result.className = 'result error';
+            }
+        }
+        
+        async function testAIChat() {
+            const result = document.getElementById('aiResult');
+            result.innerHTML = 'Testing AI chat...';
+            result.className = 'result';
+            
+            try {
+                const response = await fetch(`${API}/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        persona: {
+                            name: "Maria",
+                            demographics: {
+                                age: 35,
+                                gender: "female",
+                                role: "Designer",
+                                location: { city: "London" }
+                            },
+                            personality: {
+                                openness: 80,
+                                conscientiousness: 75
+                            },
+                            psychographics: {
+                                riskTolerance: "moderate",
+                                techAdoption: "early adopter"
+                            }
+                        },
+                        idea: "Mobile App",
+                        userInput: "What do you think about this idea?"
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result.innerHTML = `
+                        <h3>✅ AI Chat Successful!</h3>
+                        <p><strong>Session ID:</strong> ${data.sessionId}</p>
+                        <p><strong>AI Response:</strong> ${data.response.content}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    result.className = 'result success';
+                } else {
+                    result.innerHTML = `<h3>❌ AI Chat Failed</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    result.className = 'result error';
+                }
+            } catch (error) {
+                result.innerHTML = `<h3>❌ Connection Error</h3><p>${error.message}</p>`;
+                result.className = 'result error';
+            }
+        }
+        
+        async function testAll() {
+            const result = document.getElementById('allResult');
+            result.innerHTML = 'Testing ALL endpoints...';
+            result.className = 'result';
+            
+            const tests = [
+                { name: 'Health Check', url: '/health' },
+                { name: 'Voice Call', url: '/voice/call', method: 'POST', body: { persona: { name: 'Test' }, idea: 'Test' } },
+                { name: 'AI Chat', url: '/ai/chat', method: 'POST', body: { persona: { name: 'Test' }, idea: 'Test', userInput: 'Test' } }
+            ];
+            
+            let results = [];
+            let allPassed = true;
+            
+            for (const test of tests) {
+                try {
+                    const options = {
+                        method: test.method || 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    if (test.body) options.body = JSON.stringify(test.body);
+                    
+                    const response = await fetch(`${API}${test.url}`, options);
+                    const data = await response.json();
+                    
+                    const passed = response.ok && (data.success || data.ok);
+                    results.push({ name: test.name, status: passed ? '✅ PASS' : '❌ FAIL' });
+                    if (!passed) allPassed = false;
+                } catch (error) {
+                    results.push({ name: test.name, status: '❌ ERROR: ' + error.message });
+                    allPassed = false;
+                }
+            }
+            
+            result.innerHTML = `
+                <h3>${allPassed ? '✅' : '❌'} All Tests Complete</h3>
+                ${results.map(r => `<p><strong>${r.name}:</strong> ${r.status}</p>`).join('')}
+                <p style="font-size: 18px; font-weight: bold; color: ${allPassed ? '#28a745' : '#dc3545'};">
+                    ${allPassed ? '🎉 EVERYTHING IS WORKING! Call Persona is ready!' : '❌ Some tests failed - check above'}
+                </p>
+            `;
+            
+            result.className = allPassed ? 'result success' : 'result error';
+        }
+    </script>
+</body>
+</html>

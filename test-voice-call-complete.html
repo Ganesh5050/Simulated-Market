@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Voice Call Complete</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🎙️ Complete Voice Call Test</h1>
+    
+    <div class="test-section">
+        <h2>1️⃣ Test Voice Call Setup</h2>
+        <button onclick="testVoiceCall()">Test Voice Call Endpoint</button>
+        <div id="voiceResult" class="result">Click to test voice call setup...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2️⃣ Test AI Chat</h2>
+        <button onclick="testAIChat()">Test AI Chat Endpoint</button>
+        <div id="aiResult" class="result">Click to test AI chat...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3️⃣ Test Feedback</h2>
+        <button onclick="testFeedback()">Test Feedback Endpoint</button>
+        <div id="feedbackResult" class="result">Click to test feedback...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4️⃣ Test All Endpoints</h2>
+        <button onclick="testAll()">Test All Endpoints</button>
+        <div id="allResult" class="result">Click to test all endpoints...</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5050';
+        
+        async function testVoiceCall() {
+            const resultDiv = document.getElementById('voiceResult');
+            resultDiv.innerHTML = 'Testing voice call setup...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    persona: {
+                        name: "Richard",
+                        demographics: {
+                            gender: "male",
+                            location: { city: "Paris" }
+                        }
+                    },
+                    idea: "AI assistant app"
+                };
+                
+                console.log('🎙️ Testing voice call...');
+                
+                const response = await fetch(`${API_BASE}/voice/call`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <h3>✅ Voice Call Setup Successful!</h3>
+                        <p><strong>Assistant:</strong> ${data.assistantConfig.name}</p>
+                        <p><strong>Model:</strong> ${data.assistantConfig.model.model}</p>
+                        <p><strong>Public Key:</strong> ${data.publicKey.substring(0, 20)}...</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>❌ Voice Call Setup Failed</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result error';
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ Voice Call Error</h3>
+                    <p>${error.message}</p>
+                `;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testAIChat() {
+            const resultDiv = document.getElementById('aiResult');
+            resultDiv.innerHTML = 'Testing AI chat...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    messages: [
+                        { role: "user", content: "Hello, can you help me?" }
+                    ],
+                    persona: { name: "Maria" },
+                    idea: "AI app"
+                };
+                
+                console.log('🤖 Testing AI chat...');
+                
+                const response = await fetch(`${API_BASE}/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <h3>✅ AI Chat Successful!</h3>
+                        <p><strong>Session ID:</strong> ${data.sessionId}</p>
+                        <p><strong>AI Response:</strong> ${data.response.content}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>❌ AI Chat Failed</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result error';
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ AI Chat Error</h3>
+                    <p>${error.message}</p>
+                `;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testFeedback() {
+            const resultDiv = document.getElementById('feedbackResult');
+            resultDiv.innerHTML = 'Testing feedback...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    feedback: "This is a great application!",
+                    sessionId: "test_session_" + Date.now(),
+                    userId: "test_user_" + Date.now()
+                };
+                
+                console.log('📝 Testing feedback...');
+                
+                const response = await fetch(`${API_BASE}/feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <h3>✅ Feedback Successful!</h3>
+                        <p><strong>Feedback ID:</strong> ${data.feedbackId}</p>
+                        <p><strong>Message:</strong> ${data.message}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>❌ Feedback Failed</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    resultDiv.className = 'result error';
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ Feedback Error</h3>
+                    <p>${error.message}</p>
+                `;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testAll() {
+            const resultDiv = document.getElementById('allResult');
+            resultDiv.innerHTML = 'Testing all endpoints...';
+            resultDiv.className = 'result';
+            
+            try {
+                console.log('🚀 Testing all endpoints...');
+                
+                const results = [];
+                
+                // Test voice call
+                try {
+                    const voiceResponse = await fetch(`${API_BASE}/voice/call`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            persona: { name: "Test" },
+                            idea: "Test idea"
+                        })
+                    });
+                    const voiceData = await voiceResponse.json();
+                    results.push({ endpoint: '/voice/call', status: voiceResponse.ok, data: voiceData.success });
+                } catch (e) {
+                    results.push({ endpoint: '/voice/call', status: false, error: e.message });
+                }
+                
+                // Test AI chat
+                try {
+                    const aiResponse = await fetch(`${API_BASE}/ai/chat`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            messages: [{ role: "user", content: "test" }],
+                            persona: { name: "Test" },
+                            idea: "Test idea"
+                        })
+                    });
+                    const aiData = await aiResponse.json();
+                    results.push({ endpoint: '/ai/chat', status: aiResponse.ok, data: aiData.success });
+                } catch (e) {
+                    results.push({ endpoint: '/ai/chat', status: false, error: e.message });
+                }
+                
+                // Test feedback
+                try {
+                    const feedbackResponse = await fetch(`${API_BASE}/feedback`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            feedback: "test feedback",
+                            sessionId: "test",
+                            userId: "test"
+                        })
+                    });
+                    const feedbackData = await feedbackResponse.json();
+                    results.push({ endpoint: '/feedback', status: feedbackResponse.ok, data: feedbackData.success });
+                } catch (e) {
+                    results.push({ endpoint: '/feedback', status: false, error: e.message });
+                }
+                
+                const allSuccess = results.every(r => r.status);
+                
+                resultDiv.innerHTML = `
+                    <h3>${allSuccess ? '✅' : '❌'} All Endpoints Test Complete</h3>
+                    ${results.map(r => `
+                        <p><strong>${r.endpoint}:</strong> ${r.status ? '✅ Working' : '❌ Failed'} ${r.error || ''}</p>
+                    `).join('')}
+                    <pre>${JSON.stringify(results, null, 2)}</pre>
+                `;
+                
+                resultDiv.className = allSuccess ? 'result success' : 'result error';
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ Test All Error</h3>
+                    <p>${error.message}</p>
+                `;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>
