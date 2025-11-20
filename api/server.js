@@ -9,6 +9,15 @@ console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? '✅ Loaded' : '❌ 
 console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? '✅ Loaded' : '❌ Missing');
 console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('API') || key.includes('SUPABASE') || key.includes('VAPI') || key.includes('OPENAI')));
 
+app.get('/test-env', (req, res) => {
+  res.json({
+    VAPI_API_KEY: process.env.VAPI_API_KEY ? `Set (${process.env.VAPI_API_KEY.substring(0, 8)}...)` : 'Not set',
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY ? 'Set' : 'Not set',
+    SUPABASE_URL: process.env.SUPABASE_URL ? 'Set' : 'Not set',
+    allEnvVars: Object.keys(process.env).filter(key => key.includes('API') || key.includes('SUPABASE') || key.includes('VAPI') || key.includes('OPENAI'))
+  });
+});
+
 const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
