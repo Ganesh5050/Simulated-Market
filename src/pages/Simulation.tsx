@@ -708,7 +708,7 @@ const Simulation = () => {
       setTimeout(() => setLiveTranscript("📡 Connecting to backend..."), 300);
       
       // Request assistant creation from backend
-      const response = await fetch('http://localhost:5050/voice/call', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://pipe-it-backend.onrender.com'}/voice/call`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
