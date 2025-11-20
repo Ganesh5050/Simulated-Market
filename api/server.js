@@ -1,6 +1,14 @@
 // COMPLETE WORKING SERVER - ALL ENDPOINTS WITH REAL AI
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, 'env-config.txt') });
+
+// Debug: Check if environment variables are loaded
+console.log('🔑 Environment variables loaded:');
+console.log('VAPI_API_KEY:', process.env.VAPI_API_KEY ? `✅ Loaded (${process.env.VAPI_API_KEY.substring(0, 8)}...)` : '❌ Missing');
+console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? '✅ Loaded' : '❌ Missing');
+console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? '✅ Loaded' : '❌ Missing');
+console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('API') || key.includes('SUPABASE') || key.includes('VAPI') || key.includes('OPENAI')));
+
 const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
