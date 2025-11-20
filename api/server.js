@@ -616,7 +616,7 @@ Keep responses concise (2-3 sentences) and natural.`;
     res.json({
       success: true,
       assistantConfig,
-      publicKey: process.env.VITE_VAPI_API_KEY || 'your-vapi-api-key-here',
+      publicKey: process.env.VAPI_API_KEY || 'your-vapi-api-key-here',
       persona: {
         id: persona.id || 'default',
         name: persona.name || 'AI Assistant',
