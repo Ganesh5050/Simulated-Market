@@ -39,7 +39,7 @@ const Login = () => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5050/auth/login", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'https://pipe-it-backend.onrender.com'}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginForm),
@@ -87,7 +87,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5050/auth/signup", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'https://pipe-it-backend.onrender.com'}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

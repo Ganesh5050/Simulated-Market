@@ -42,7 +42,7 @@ class ProfessionalVoiceService {
       }
 
       // Get Vapi configuration from backend
-      const response = await fetch('http://localhost:5050/voice/call', {
+      const response = await fetch('https://pipe-it-backend.onrender.com/voice/call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

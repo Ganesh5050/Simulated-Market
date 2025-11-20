@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { ProjectService } from "@/services/projectService";
 import { Project } from "@/lib/supabase";
+import { getApiUrl } from "@/lib/api";
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Projects = () => {
     // fetch user name for greeting
     const token = localStorage.getItem('auth_token');
     if (token) {
-      fetch('http://localhost:5050/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+      fetch(getApiUrl('/auth/me'), { headers: { Authorization: `Bearer ${token}` } })
         .then(r => r.json())
         .then(json => {
           const name = json?.user?.firstName || 'there';

@@ -1,6 +1,11 @@
 // API Configuration for PipeIt - Production ready
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pipe-it-backend.onrender.com';
 
+// Helper function to get API URL for direct fetch calls
+export const getApiUrl = (endpoint: string) => {
+  return `${API_BASE_URL}${endpoint}`;
+};
+
 // Helper function for API calls
 export const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;

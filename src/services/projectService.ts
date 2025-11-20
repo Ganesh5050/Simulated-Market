@@ -1,4 +1,5 @@
 import { supabase, Project, ProjectPersonaNode, AnalysisSession } from '@/lib/supabase';
+import { getApiUrl } from '@/lib/api';
 
 // Helper function to get auth token for backend requests
 const getAuthToken = () => {
@@ -29,7 +30,7 @@ export class ProjectService {
     }
 
     try {
-      const res = await fetch('http://localhost:5050/projects', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/projects', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ export class ProjectService {
         return [];
       }
 
-      const res = await fetch('http://localhost:5050/projects', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/projects', {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ export class ProjectService {
     }
 
     try {
-      const res = await fetch(`http://localhost:5050/projects/${projectId}`, {
+      const res = await fetch(`https://pipe-it-backend.onrender.com/projects/${projectId}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -136,7 +137,7 @@ export class ProjectService {
     }
 
     try {
-      const res = await fetch(`http://localhost:5050/projects/${projectId}`, {
+      const res = await fetch(`https://pipe-it-backend.onrender.com/projects/${projectId}`, {
         method: 'DELETE',
         headers: { 
           'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ export class ProjectService {
     }
 
     try {
-      const res = await fetch('http://localhost:5050/analysis-sessions', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/analysis-sessions', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

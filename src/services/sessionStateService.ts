@@ -129,7 +129,7 @@ export class SessionStateService {
     }
 
     try {
-      const res = await fetch('http://localhost:5050/user-preferences', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/user-preferences', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ export class SessionStateService {
     const session = sessionName || 'Main Session';
 
     try {
-      const res = await fetch('http://localhost:5050/sessions/save', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/sessions/save', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ export class SessionStateService {
         return [];
       }
 
-      const res = await fetch(`http://localhost:5050/sessions?project_id=${projectId}`, {
+      const res = await fetch(`https://pipe-it-backend.onrender.com/sessions?project_id=${projectId}`, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
@@ -278,7 +278,7 @@ export class SessionStateService {
     }
 
     try {
-      const res = await fetch(`http://localhost:5050/sessions/${sessionId}`, {
+      const res = await fetch(`https://pipe-it-backend.onrender.com/sessions/${sessionId}`, {
         method: 'DELETE',
         headers: { 
           'Content-Type': 'application/json',
@@ -319,7 +319,7 @@ export class SessionStateService {
     }
 
     try {
-      const res = await fetch('http://localhost:5050/sessions', {
+      const res = await fetch('https://pipe-it-backend.onrender.com/sessions', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -368,7 +368,7 @@ export class SessionStateService {
     }
 
     try {
-      const res = await fetch(`http://localhost:5050/sessions/${sessionId}/resume`, {
+      const res = await fetch(`https://pipe-it-backend.onrender.com/sessions/${sessionId}/resume`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

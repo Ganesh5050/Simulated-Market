@@ -269,7 +269,7 @@ class DirectPersonaVoiceService {
   private async getPersonaResponse(userInput: string, callbacks: DirectVoiceCallbacks, persona: Persona): Promise<void> {
     try {
       // Call backend API instead of OpenAI directly
-      const response = await fetch('http://localhost:5050/ai/chat', {
+      const response = await fetch('https://pipe-it-backend.onrender.com/ai/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

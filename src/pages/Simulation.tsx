@@ -468,7 +468,7 @@ const Simulation = () => {
       // Save to database if we have a project and user is authenticated
       if (currentProject?.id && localStorage.getItem('auth_token')) {
         try {
-          await fetch('http://localhost:5050/feedback', {
+          await fetch('https://pipe-it-backend.onrender.com/feedback', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -505,7 +505,7 @@ const Simulation = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5050/projects/${currentProject.id}/feedback`, {
+      const response = await fetch(`https://pipe-it-backend.onrender.com/projects/${currentProject.id}/feedback`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -593,7 +593,7 @@ const Simulation = () => {
           }
 
           // Call AI service for response
-          const response = await fetch('http://localhost:5050/ai/chat', {
+          const response = await fetch('https://pipe-it-backend.onrender.com/ai/chat', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -708,7 +708,7 @@ const Simulation = () => {
       setTimeout(() => setLiveTranscript("📡 Connecting to backend..."), 300);
       
       // Request assistant creation from backend
-      const response = await fetch('http://localhost:5050/voice/call', {
+      const response = await fetch('https://pipe-it-backend.onrender.com/voice/call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
